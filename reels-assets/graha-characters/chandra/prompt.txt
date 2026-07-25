@@ -1,0 +1,13 @@
+MASTER STYLE:
+Cinematic Indian mythological divine character portrait, reverent sacred tone,
+high-end mythic film key art, detailed traditional attire and jewelry,
+soft volumetric light, temple-cosmic atmosphere, highly readable silhouette,
+vertical mobile composition, consistent painted-cinematic style across series,
+no photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text
+
+GRAHA IDENTITY (Chandra / Moon):
+Cinematic Indian mythological divine character portrait of Chandra (Moon deity), SAME SERIES STYLE as reference: high-end mythic film key art, painted-cinematic, reverent sacred tone. Calm luminous divine male figure with serene emotional presence, silver-white-blue traditional attire, crescent moon ornament on crown/head, soft water and mist cues, cool silver volumetric light, temple-cosmic night atmosphere. Silver/pearl/soft blue palette. Highly readable silhouette, vertical 9:16 mobile composition with headroom for captions, centered pose matching series framing. No photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text.
+
+REFERENCES USED: stylelock_shani_v1.png, stylelock_guru_v1.png
+ASPECT: 9:16 (generated 1024×1536)
+TOOLS: Cursor GenerateImage + reference_image_paths; square via ImageMagick; cutout via rembg

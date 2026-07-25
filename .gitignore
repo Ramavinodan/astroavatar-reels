@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Lockfiles (install from package.json)
+package-lock.json
+**/package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+**/.DS_Store
+.idea/
+.vscode/
+
+# Build caches
+dist/
+**/.cache/
+*.log
+
+# Remotion / bundler temp (keep intentional renders under out/)
+.remotion/

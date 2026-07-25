@@ -1,0 +1,13 @@
+MASTER STYLE:
+Cinematic Indian mythological divine character portrait, reverent sacred tone,
+high-end mythic film key art, detailed traditional attire and jewelry,
+soft volumetric light, temple-cosmic atmosphere, highly readable silhouette,
+vertical mobile composition, consistent painted-cinematic style across series,
+no photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text
+
+GRAHA IDENTITY (Guru / Brihaspati / Jupiter):
+Cinematic Indian mythological divine character portrait of Guru Brihaspati (Jupiter deity), reverent sacred tone, high-end mythic film key art. Wise benevolent elderly divine teacher figure with warm serene expression, yellow-gold traditional silk robes and sacred thread, one hand in blessing mudra, other holding scripture palm-leaf book, soft golden volumetric light, temple-cosmic atmosphere. Yellow, gold, warm amber palette with gentle radiant aura. Highly readable silhouette, vertical mobile composition, painted-cinematic semi-realistic illustration style matching mythic film key art (not photoreal, not cartoon). Headroom in upper third for captions. No photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text, no logos.
+
+ASPECT: 9:16 (generated 1024×1536)
+TOOLS: Cursor GenerateImage; square via ImageMagick; cutout via rembg
+STYLE LOCK FILE: _style-lock/stylelock_guru_v1.png

@@ -1,0 +1,13 @@
+MASTER STYLE:
+Cinematic Indian mythological divine character portrait, reverent sacred tone,
+high-end mythic film key art, detailed traditional attire and jewelry,
+soft volumetric light, temple-cosmic atmosphere, highly readable silhouette,
+vertical mobile composition, consistent painted-cinematic style across series,
+no photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text
+
+GRAHA IDENTITY (Surya / Sun):
+Cinematic Indian mythological divine character portrait of Surya (Sun deity), SAME SERIES STYLE as reference: high-end mythic film key art, painted-cinematic, reverent sacred tone. Radiant royal divine male figure, authoritative calm expression, gold and deep red traditional royal attire and ornate golden crown, lotus and subtle chariot-wheel cues, brilliant warm golden volumetric light and solar aura, temple-cosmic atmosphere with distant temple silhouettes. Gold/red/amber palette. Highly readable silhouette, vertical 9:16 mobile composition with headroom for captions, centered heroic pose on stone platform like the series. No photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text.
+
+REFERENCES USED: stylelock_guru_v1.png, stylelock_mangal_v1.png
+ASPECT: 9:16 (generated 1024×1536)
+TOOLS: Cursor GenerateImage + reference_image_paths; square via ImageMagick; cutout via rembg

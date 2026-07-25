@@ -1,0 +1,13 @@
+MASTER STYLE:
+Cinematic Indian mythological divine character portrait, reverent sacred tone,
+high-end mythic film key art, detailed traditional attire and jewelry,
+soft volumetric light, temple-cosmic atmosphere, highly readable silhouette,
+vertical mobile composition, consistent painted-cinematic style across series,
+no photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text
+
+GRAHA IDENTITY (Mangal / Mars):
+Cinematic Indian mythological divine character portrait of Mangal (Mars deity), reverent sacred tone, high-end mythic film key art. Powerful warrior divine male figure with stern controlled energy (not gore, not rage-face), red-orange traditional armor accents over classical Indian warrior attire, holding a spear upright as symbol not attacking, warm ember rim light, cosmic-temple atmosphere. Red, saffron, bronze color palette with subtle fiery aura. Highly readable silhouette, vertical mobile composition, painted-cinematic semi-realistic illustration style matching mythic film key art (not photoreal, not cartoon). Calm authority warrior presence. Headroom in upper third for captions. No photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text, no logos.
+
+ASPECT: 9:16 (generated 1024×1536)
+TOOLS: Cursor GenerateImage; square via ImageMagick; cutout via rembg
+STYLE LOCK FILE: _style-lock/stylelock_mangal_v1.png

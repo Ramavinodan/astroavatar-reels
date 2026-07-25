@@ -1,0 +1,13 @@
+MASTER STYLE:
+Cinematic Indian mythological divine character portrait, reverent sacred tone,
+high-end mythic film key art, detailed traditional attire and jewelry,
+soft volumetric light, temple-cosmic atmosphere, highly readable silhouette,
+vertical mobile composition, consistent painted-cinematic style across series,
+no photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text
+
+GRAHA IDENTITY (Shani / Saturn):
+Cinematic Indian mythological divine character portrait of Shani (Saturn deity), reverent sacred tone, high-end mythic film key art. Tall austere dark-skinned divine male figure with calm stern justice expression, dark blue-black traditional dhoti and upper cloth with silver accents, holding a tall iron staff, subtle crow silhouette in distant cosmic mist (tasteful, not horror), disciplined posture, blessing-ready solemn authority not violent. Soft volumetric cool rim light, temple-cosmic atmosphere, deep indigo and charcoal palette with faint sapphire glow aura. Highly readable silhouette, vertical mobile composition, painted-cinematic semi-realistic illustration style (not photoreal, not cartoon). Headroom in upper third for captions. No photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text, no logos.
+
+ASPECT: 9:16 (generated 1024×1536)
+TOOLS: Cursor GenerateImage; square via ImageMagick; cutout via rembg
+STYLE LOCK FILE: _style-lock/stylelock_shani_v1.png

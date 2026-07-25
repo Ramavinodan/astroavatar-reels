@@ -1,0 +1,13 @@
+MASTER STYLE:
+Cinematic Indian mythological divine character portrait, reverent sacred tone,
+high-end mythic film key art, detailed traditional attire and jewelry,
+soft volumetric light, temple-cosmic atmosphere, highly readable silhouette,
+vertical mobile composition, consistent painted-cinematic style across series,
+no photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text
+
+GRAHA IDENTITY (Budha / Mercury):
+Cinematic Indian mythological divine character portrait of Budha (Mercury deity), SAME SERIES STYLE as reference: high-end mythic film key art, painted-cinematic, reverent sacred tone. Youthful clever communicative divine male figure, intelligent gentle smile, green emerald traditional attire with gold accents, holding a book or palm-leaf scroll, soft green-gold volumetric light, temple-cosmic atmosphere. Green/emerald/gold palette. Highly readable silhouette, vertical 9:16 mobile composition with headroom for captions, centered pose matching series. No photoreal celebrity face, no horror, no gore, no modern clothing, no watermark, no text.
+
+REFERENCES USED: stylelock_guru_v1.png, stylelock_mangal_v1.png
+ASPECT: 9:16 (generated 1024×1536)
+TOOLS: Cursor GenerateImage + reference_image_paths; square via ImageMagick; cutout via rembg
