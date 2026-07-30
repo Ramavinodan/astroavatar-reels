@@ -173,6 +173,9 @@ def handle_telegram_command(command: str) -> str:
         return get_billing_html_summary()
     elif cmd.startswith("/status"):
         return get_status_summary()
+    elif cmd.startswith("/latest"):
+        subprocess.Popen([sys.executable, os.path.join(ROOT_DIR, "scripts", "send_latest_video.py")])
+        return "📤 <b>Fetching Latest Video...</b> I am retrieving the most recently generated reel. It will be sent to this chat shortly!"
     elif cmd.startswith("/sendvideo"):
         subprocess.Popen([sys.executable, os.path.join(ROOT_DIR, "scripts", "pipeline_runner.py")])
         return "🎬 <b>Video production triggered!</b> Generating a new reel using Sarvam AI & Remotion. The video will be sent to this chat upon completion (~2 mins)."
@@ -181,6 +184,7 @@ def handle_telegram_command(command: str) -> str:
             "🤖 <b>AstroAvatar Automated Reels Bot</b>\n\n"
             "Available Commands:\n"
             "• <code>/status</code> - Check daily video generation & delivery status.\n"
+            "• <code>/latest</code> - Resend the most recently generated video to this chat.\n"
             "• <code>/bill</code> - View spending breakdown across LLM, TTS, & Image APIs (Day, Week, Month).\n"
             "• <code>/sendvideo</code> - Generate & deliver a new video immediately.\n"
             "• <code>/help</code> - Show this guide."
