@@ -7,20 +7,15 @@ KEY_PATH="/Users/rama.m/workspace/personal/vm/mumbai_vm.key"
 REMOTE_DIR="/home/ubuntu/astroavatar-reels"
 
 echo "=========================================================="
-echo "🚀 Deploying AstroAvatar Reels Production System to VM"
+echo "🚀 Updating AstroAvatar Reels Production on VM via Git"
 echo "=========================================================="
 
-echo "1. Syncing project files to VM ($VM_HOST)..."
-rsync -avz -e "ssh -i $KEY_PATH -o StrictHostKeyChecking=no" \
-  --exclude 'node_modules' \
-  --exclude '.git' \
-  --exclude 'out' \
-  --exclude '.DS_Store' \
-  ./ $VM_USER@$VM_HOST:$REMOTE_DIR/
+echo "1. Triggering Git Pull on Remote VM ($VM_HOST)..."
+ssh -i "$KEY_PATH" -o StrictHostKeyChecking=no $VM_USER@$VM_HOST "cd $REMOTE_DIR && git fetch origin && git reset --hard origin/main"
 
 echo "2. Executing VM setup script on remote server..."
 ssh -i "$KEY_PATH" -o StrictHostKeyChecking=no $VM_USER@$VM_HOST "bash $REMOTE_DIR/deploy/setup_vm.sh"
 
 echo "=========================================================="
-echo "🎉 Deployment to VM Successful!"
+echo "🎉 Remote VM Updated via Git Successfully!"
 echo "=========================================================="
