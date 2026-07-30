@@ -29,10 +29,10 @@ def send_video_to_telegram(
     part_str = f" (भाग {part_info.get('current_part')}/{part_info.get('total_parts')})" if part_info.get("total_parts", 1) > 1 else ""
 
     caption_text = (
-        f"🎬 *{title}{part_str}*\n"
+        f"🎬 <b>{title}{part_str}</b>\n"
         f"🏷 Category: #{category.replace(' ', '_')}\n"
         f"📱 App: AstroAvatar Daily Dose\n\n"
-        f"📜 *Caption:* \n{story_data.get('script_hi', '')[:200]}...\n\n"
+        f"📜 <b>Caption:</b> \n{story_data.get('script_hi', '')[:200]}...\n\n"
         f"✨ #AstroAvatar #VedicAstrology #HinduCulture #Jyotish #Reels #InstaReels #FacebookReels"
     )
 
@@ -46,7 +46,7 @@ def send_video_to_telegram(
             data = {
                 "chat_id": cid,
                 "caption": caption_text,
-                "parse_mode": "Markdown",
+                "parse_mode": "HTML",
                 "supports_streaming": True
             }
             res = requests.post(url, data=data, files=files, timeout=300)
@@ -75,10 +75,11 @@ def send_alert_to_telegram(
         return
 
     icon = "🚨" if status == "ERROR" else "ℹ️" if status == "INFO" else "✅"
-    formatted_msg = f"{icon} *AstroAvatar Monitor Alert [{status}]*\n\n{message}"
+    formatted_msg = f"{icon} <b>AstroAvatar Monitor Alert [{status}]</b>\n\n{message}"
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     try:
-        requests.post(url, json={"chat_id": cid, "text": formatted_msg, "parse_mode": "Markdown"}, timeout=15)
+        requests.post(url, json={"chat_id": cid, "text": formatted_msg, "parse_mode": "HTML"}, timeout=15)
     except Exception as e:
         print(f"[Alert Error] Failed to send Telegram alert: {e}")
+
