@@ -66,13 +66,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-def get_used_topic_ids():
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT DISTINCT topic_id FROM production_logs WHERE status='SUCCESS'")
-    rows = cursor.fetchall()
-    conn.close()
-    return [r[0] for r in rows]
+# Deprecated: No longer needed as topic_catalog.py handles usage tracking internally
 
 def run_pipeline(dry_run: bool = False) -> bool:
     """Executes the full automated video generation and delivery pipeline."""
@@ -86,9 +80,8 @@ def run_pipeline(dry_run: bool = False) -> bool:
     os.makedirs(OUT_DIR, exist_ok=True)
 
     try:
-        # Step 1: Select Topic
-        used_ids = get_used_topic_ids()
-        topic_info = get_next_topic(used_ids)
+        # Step 1: Select Topic from Database
+        topic_info = get_next_topic()
         print(f"[Topic Selector] Picked topic: '{topic_info['title']}' ({topic_info['category']})")
 
         # Step 2: Generate Script & Story JSON
