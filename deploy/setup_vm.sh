@@ -34,8 +34,13 @@ CRON_JOB_2="0 18 * * * cd $APP_DIR && /usr/bin/python3 scripts/pipeline_runner.p
 
 (crontab -l 2>/dev/null | grep -v "pipeline_runner.py" ; echo "$CRON_JOB_1" ; echo "$CRON_JOB_2") | crontab -
 
+echo "5. Starting Telegram Bot Daemon for /bill and /status commands..."
+pkill -f "telegram_bot_daemon.py" || true
+nohup python3 scripts/telegram_bot_daemon.py >> $APP_DIR/logs/bot_daemon.log 2>&1 &
+
 echo "=========================================================="
-echo "✅ VM Setup Complete! Crontab active."
+echo "✅ VM Setup Complete! Crontab active & Telegram Bot Daemon running."
 echo "Current Crontab Schedule:"
 crontab -l
 echo "=========================================================="
+

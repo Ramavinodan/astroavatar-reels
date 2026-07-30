@@ -19,7 +19,10 @@ from image_generator import generate_slide_images
 from tts_generator import generate_narration_audio
 from telegram_publisher import send_video_to_telegram, send_alert_to_telegram
 
+from billing_tracker import log_video_cost
+
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 REMOTION_DIR = os.path.join(ROOT_DIR, "reels-factory")
 PUBLIC_DIR = os.path.join(REMOTION_DIR, "public")
 OUT_DIR = os.path.join(REMOTION_DIR, "out")
@@ -160,8 +163,12 @@ def run_pipeline(dry_run: bool = False) -> bool:
         conn.commit()
         conn.close()
 
+        # Step 9: Log Billing Usage
+        log_video_cost(story_data["story_id"], story_data["script_hi"], len(story_data["slides"]))
+
         print(f"🎉 Pipeline Execution Complete Successfully! [{datetime.datetime.now()}]")
         return True
+
 
     except Exception as e:
         err_msg = f"Pipeline execution failed: {str(e)}\n\nTraceback:\n{traceback.format_exc()}"
