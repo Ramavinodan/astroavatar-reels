@@ -58,17 +58,17 @@ def generate_story_llm(topic_info: Dict[str, Any], api_key: Optional[str] = None
     if api_key and provider:
         try:
             if provider.lower() == "sarvam":
-                url = "https://api.sarvam.ai/chat/completions"
+                url = "https://api.sarvam.ai/v1/chat/completions"
                 headers = {"api-subscription-key": api_key, "Content-Type": "application/json"}
                 payload = {
-                    "model": "sarvam-2b",
+                    "model": "sarvam-105b",
                     "messages": [
                         {"role": "system", "content": SYSTEM_PROMPT},
                         {"role": "user", "content": prompt_text}
                     ],
                     "temperature": 0.7
                 }
-                res = requests.post(url, json=payload, headers=headers, timeout=30)
+                res = requests.post(url, json=payload, headers=headers, timeout=35)
                 if res.status_code == 200:
                     content = res.json()["choices"][0]["message"]["content"]
                     return parse_llm_json(content, topic_info)

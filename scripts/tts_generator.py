@@ -89,14 +89,15 @@ def generate_sarvam_tts(text: str, save_path: str, api_key: str) -> bool:
     payload = {
         "inputs": [text],
         "target_language_code": "hi-IN",
-        "speaker": "meera", # or bulbul
+        "speaker": "hitesh",
         "pitch": 0,
         "pace": 0.95,
         "loudness": 1.5,
         "speech_sample_rate": 22050,
         "enable_preprocessing": True,
-        "model": "bulbul:v1"
+        "model": "bulbul:v2"
     }
+
     try:
         res = requests.post(url, json=payload, headers=headers, timeout=30)
         if res.status_code == 200:
