@@ -6,24 +6,24 @@ import {
   defaultDynamicSlideshowProps,
 } from "./compositions/DynamicSlideshow";
 import {
-  DailyDoseIntro,
+  PremiumIntro,
   INTRO_FRAMES,
   INTRO_FPS,
-  dailyDoseIntroDefaults,
-} from "./compositions/DailyDoseIntro";
-import type { DailyDoseIntroProps } from "./compositions/DailyDoseIntro";
+  premiumIntroDefaults,
+} from "./compositions/PremiumIntro";
+import type { PremiumIntroProps } from "./compositions/PremiumIntro";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
         id="DailyDoseIntro"
-        component={DailyDoseIntro}
+        component={PremiumIntro}
         durationInFrames={INTRO_FRAMES}
         fps={INTRO_FPS}
         width={1080}
         height={1920}
-        defaultProps={dailyDoseIntroDefaults satisfies DailyDoseIntroProps}
+        defaultProps={premiumIntroDefaults satisfies PremiumIntroProps}
       />
       <Composition
         id="RahuKetuFormatB"

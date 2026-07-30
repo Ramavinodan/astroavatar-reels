@@ -12,7 +12,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Mukta";
-import { DailyDoseIntro } from "./DailyDoseIntro";
+import { PremiumIntro } from "./PremiumIntro";
 
 const { fontFamily } = loadFont("normal", {
   weights: ["600", "700"],
@@ -82,7 +82,7 @@ export const DynamicSlideshow: React.FC<DynamicSlideshowProps> = ({
     <AbsoluteFill style={{ background: "#04060c", fontFamily }}>
       {/* 1. WELCOME INTRO (0 to introFrames) */}
       <Sequence durationInFrames={introFrames}>
-        <DailyDoseIntro narrationFile={welcomeFile} />
+        <PremiumIntro narrationFile={welcomeFile} />
       </Sequence>
 
       {/* 2. STORY BODY (introFrames to storyFrames) */}
