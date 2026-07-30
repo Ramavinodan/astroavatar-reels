@@ -3,6 +3,8 @@ Interactive Telegram Bot Daemon for AstroAvatar Reels.
 Listens for commands:
   - /bill : Spending breakdown across third-party services (Day, Week, Month).
   - /status : Daily video production status (Morning & Evening runs, completed/delivered).
+  - /sendvideo : Immediately generates and sends a new video to Telegram.
+Automatically saves TELEGRAM_CHAT_ID to .env upon receiving user messages.
 Runs 24/7 as a background service on the VM.
 """
 import os
@@ -12,6 +14,7 @@ import json
 import sqlite3
 import datetime
 import requests
+import subprocess
 
 from billing_tracker import get_billing_summary, init_billing_db
 
@@ -27,6 +30,26 @@ def load_env():
                 if line and not line.startswith("#") and "=" in line:
                     k, v = line.split("=", 1)
                     os.environ[k.strip()] = v.strip()
+
+def save_chat_id_to_env(chat_id: Any):
+    chat_str = str(chat_id).strip()
+    env_file = os.path.join(ROOT_DIR, ".env")
+    lines = []
+    found = False
+    if os.path.exists(env_file):
+        with open(env_file, "r") as f:
+            for line in f:
+                if line.startswith("TELEGRAM_CHAT_ID="):
+                    lines.append(f"TELEGRAM_CHAT_ID={chat_str}\n")
+                    found = True
+                else:
+                    lines.append(line)
+    if not found:
+        lines.append(f"TELEGRAM_CHAT_ID={chat_str}\n")
+
+    with open(env_file, "w") as f:
+        f.writelines(lines)
+    os.environ["TELEGRAM_CHAT_ID"] = chat_str
 
 def get_status_summary() -> str:
     """Computes daily video generation & delivery status."""
@@ -89,12 +112,17 @@ def handle_telegram_command(command: str) -> str:
         return get_billing_summary()
     elif cmd.startswith("/status"):
         return get_status_summary()
+    elif cmd.startswith("/sendvideo"):
+        # Trigger background video generation
+        subprocess.Popen([sys.executable, os.path.join(ROOT_DIR, "scripts", "pipeline_runner.py")])
+        return "🎬 *Video production triggered!* Generating a new reel using Sarvam AI & Remotion. The video will be sent to this chat upon completion (~2 mins)."
     elif cmd.startswith("/start") or cmd.startswith("/help"):
         return (
             "🤖 *AstroAvatar Automated Reels Bot*\n\n"
             "Available Commands:\n"
             "• `/status` - Check daily video generation & delivery status.\n"
             "• `/bill` - View spending breakdown across LLM, TTS, & Image APIs (Day, Week, Month).\n"
+            "• `/sendvideo` - Generate & deliver a new video immediately.\n"
             "• `/help` - Show this guide."
         )
     return ""
@@ -104,10 +132,10 @@ def run_bot_daemon():
     init_billing_db()
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     if not token:
-        print("[Bot Daemon Error] TELEGRAM_BOT_TOKEN not set.")
+        print("[Bot Daemon Error] TELEGRAM_BOT_TOKEN not set.", flush=True)
         sys.exit(1)
 
-    print(f"🤖 Telegram Bot Daemon started listening for /bill and /status commands...")
+    print(f"🤖 Telegram Bot Daemon started listening for commands...", flush=True)
     offset = 0
 
     while True:
@@ -121,19 +149,27 @@ def run_bot_daemon():
                         offset = update["update_id"] + 1
                         msg = update.get("message", {})
                         text = msg.get("text", "")
-                        chat_id = msg.get("chat", {}).get("id")
+                        chat = msg.get("chat", {})
+                        chat_id = chat.get("id")
 
-                        if chat_id and text.startswith("/"):
+                        if chat_id:
+                            # Auto-save chat ID so future automated videos reach the user!
+                            save_chat_id_to_env(chat_id)
+                            print(f"[Bot Daemon] Captured chat_id: {chat_id} from {chat.get('first_name')}", flush=True)
+
+                        if chat_id and text:
                             reply_text = handle_telegram_command(text)
-                            if reply_text:
-                                requests.post(
-                                    f"https://api.telegram.org/bot{token}/sendMessage",
-                                    json={"chat_id": chat_id, "text": reply_text, "parse_mode": "Markdown"},
-                                    timeout=15
-                                )
-                                print(f"[Bot Command Handled] User {chat_id} issued command: {text}")
+                            if not reply_text:
+                                reply_text = handle_telegram_command("/help")
+                            
+                            requests.post(
+                                f"https://api.telegram.org/bot{token}/sendMessage",
+                                json={"chat_id": chat_id, "text": reply_text, "parse_mode": "Markdown"},
+                                timeout=15
+                            )
+                            print(f"[Bot Command Handled] User {chat_id} issued: '{text}' -> Sent response.", flush=True)
         except Exception as e:
-            print(f"[Bot Daemon Warning] {e}")
+            print(f"[Bot Daemon Warning] {e}", flush=True)
             time.sleep(5)
 
         time.sleep(1)
