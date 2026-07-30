@@ -57,6 +57,12 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
+    # Add script_hi if it doesn't exist (SQLite ALTER TABLE)
+    try:
+        cursor.execute("ALTER TABLE production_logs ADD COLUMN script_hi TEXT")
+    except sqlite3.OperationalError:
+        pass # Column already exists
+    
     conn.commit()
     conn.close()
 
@@ -159,17 +165,18 @@ def run_pipeline(dry_run: bool = False) -> bool:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO production_logs (topic_id, title, category, part_number, total_parts, output_file, duration_sec, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO production_logs (topic_id, title, category, part_number, total_parts, output_file, duration_sec, status, script_hi)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             story_data["story_id"],
             story_data["title"],
             story_data["category"],
-            story_data.get("part_info", {}).get("current_part", 1),
-            story_data.get("part_info", {}).get("total_parts", 1),
+            story_data["part_info"]["current_part"],
+            story_data["part_info"]["total_parts"],
             output_mp4,
-            audio_info["audio_duration_sec"],
-            "SUCCESS"
+            props.get("durationInFrames", 0) / 30.0,
+            "SUCCESS" if delivered else "UPLOAD_FAILED",
+            story_data.get("script_hi", "")
         ))
         conn.commit()
         conn.close()

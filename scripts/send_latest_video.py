@@ -9,7 +9,7 @@ def send_latest():
     load_env()
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute("SELECT output_file, title, category, part_number, total_parts, created_at FROM production_logs WHERE status='SUCCESS' ORDER BY created_at DESC LIMIT 1")
+    cursor.execute("SELECT output_file, title, category, part_number, total_parts, created_at, script_hi FROM production_logs WHERE status='SUCCESS' ORDER BY created_at DESC LIMIT 1")
     row = cursor.fetchone()
     conn.close()
 
@@ -17,7 +17,7 @@ def send_latest():
         send_alert_to_telegram("No videos found in the production history today.", status="INFO")
         return
 
-    output_file, title, category, part_number, total_parts, created_at = row
+    output_file, title, category, part_number, total_parts, created_at, script_hi = row
     
     if not os.path.exists(output_file):
         send_alert_to_telegram(f"The latest video file was not found on disk: {output_file}", status="ERROR")
@@ -30,7 +30,7 @@ def send_latest():
             "current_part": part_number,
             "total_parts": total_parts
         },
-        "script_hi": "(This is a requested resend of the latest automatically generated AstroAvatar Reel.)",
+        "script_hi": script_hi or "(No script text found in history)",
         "generated_at": created_at
     }
 

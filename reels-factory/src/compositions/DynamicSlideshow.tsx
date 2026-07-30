@@ -100,6 +100,39 @@ export const DynamicSlideshow: React.FC<DynamicSlideshowProps> = ({
           />
         </AbsoluteFill>
       </Sequence>
+      
+      {/* Permanent Watermark (Top Right) */}
+      <div
+        style={{
+          position: "absolute",
+          top: 40,
+          right: 40,
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          background: "rgba(0, 0, 0, 0.45)",
+          padding: "8px 16px",
+          borderRadius: 999,
+          border: "1px solid rgba(255, 215, 0, 0.3)",
+          backdropFilter: "blur(10px)",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
+          zIndex: 100
+        }}
+      >
+        <Img 
+          src={staticFile("brand/astroavatar_logo.png")} 
+          style={{ width: 40, height: 40, objectFit: "contain" }} 
+        />
+        <span style={{
+          color: "#FFD700",
+          fontSize: 22,
+          fontWeight: 700,
+          letterSpacing: 1.5,
+          textTransform: "uppercase"
+        }}>
+          AstroAvatar
+        </span>
+      </div>
     </AbsoluteFill>
   );
 };
