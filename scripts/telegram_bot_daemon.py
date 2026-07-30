@@ -129,6 +129,15 @@ def handle_telegram_command(command: str) -> str:
     return ""
 
 def run_bot_daemon():
+    # Enforce single instance via file lock
+    try:
+        import fcntl
+        lock_file = open("/tmp/telegram_bot_daemon.lock", "w")
+        fcntl.flock(lock_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except IOError:
+        print("[Bot Daemon] Another instance is already running. Exiting cleanly.", flush=True)
+        sys.exit(0)
+
     load_env()
     init_billing_db()
     token = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -136,8 +145,9 @@ def run_bot_daemon():
         print("[Bot Daemon Error] TELEGRAM_BOT_TOKEN not set.", flush=True)
         sys.exit(1)
 
-    print(f"🤖 Telegram Bot Daemon started listening for commands...", flush=True)
+    print(f"🤖 Telegram Bot Daemon started listening for commands (Single Instance Lock Acquired)...", flush=True)
     offset = 0
+
 
     while True:
         try:
