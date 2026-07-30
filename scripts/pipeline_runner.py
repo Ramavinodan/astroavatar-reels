@@ -25,7 +25,18 @@ PUBLIC_DIR = os.path.join(REMOTION_DIR, "public")
 OUT_DIR = os.path.join(REMOTION_DIR, "out")
 DB_PATH = os.path.join(ROOT_DIR, "production_history.db")
 
+def load_env():
+    env_file = os.path.join(ROOT_DIR, ".env")
+    if os.path.exists(env_file):
+        with open(env_file, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ[k.strip()] = v.strip()
+
 def init_db():
+
     """Initializes SQLite database for tracking video history and multi-part series."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -56,7 +67,9 @@ def get_used_topic_ids():
 
 def run_pipeline(dry_run: bool = False) -> bool:
     """Executes the full automated video generation and delivery pipeline."""
+    load_env()
     print("==========================================================")
+
     print(f"🚀 AstroAvatar Automated Reels Generator Started [{datetime.datetime.now()}]")
     print("==========================================================")
     
