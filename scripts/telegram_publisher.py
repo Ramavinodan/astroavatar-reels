@@ -30,10 +30,14 @@ def send_video_to_telegram(
     part_info = story_data.get("part_info", {})
     part_str = f" (भाग {part_info.get('current_part')}/{part_info.get('total_parts')})" if part_info.get("total_parts", 1) > 1 else ""
 
+    gen_date = story_data.get("generated_at")
+    gen_date_str = f"🕒 <b>Generated On:</b> {gen_date}\n" if gen_date else ""
+
     caption_text = (
         f"🎬 <b>{title}{part_str}</b>\n"
         f"🏷 Category: #{category.replace(' ', '_')}\n"
-        f"📱 App: AstroAvatar Daily Dose\n\n"
+        f"📱 App: AstroAvatar Daily Dose\n"
+        f"{gen_date_str}\n"
         f"📜 <b>Caption:</b> \n{story_data.get('script_hi', '')[:200]}...\n\n"
         f"✨ #AstroAvatar #VedicAstrology #HinduCulture #Jyotish #Reels #InstaReels #FacebookReels"
     )
