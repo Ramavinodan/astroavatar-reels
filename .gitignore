@@ -19,10 +19,17 @@ pnpm-lock.yaml
 .idea/
 .vscode/
 
-# Build caches
+# Build caches & outputs
 dist/
 **/.cache/
 *.log
+out/
+reels-factory/out/
+*.db
+__pycache__/
+**/__pycache__/
+public/generated/
+reels-factory/public/generated/
 
-# Remotion / bundler temp (keep intentional renders under out/)
+# Remotion / bundler temp
 .remotion/

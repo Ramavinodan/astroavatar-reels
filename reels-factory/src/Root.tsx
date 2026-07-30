@@ -1,26 +1,16 @@
 import "./index.css";
 import { Composition } from "remotion";
+import { RahuKetuFormatB } from "./compositions/formats/RahuKetuFormatB";
 import {
-  GRAHA_MEETING_DURATION,
-  GRAHA_MEETING_FPS,
-  GRAHA_MEETING_SIZE,
-  GrahaMeeting,
-  grahaMeetingDefaults,
-} from "./compositions/GrahaMeeting";
-import {
-  RAHU_KETU_DURATION,
-  RAHU_KETU_FPS,
-  RahuKetuOrigin,
-  rahuKetuDefaults,
-} from "./compositions/RahuKetuOrigin";
+  DynamicSlideshow,
+  defaultDynamicSlideshowProps,
+} from "./compositions/DynamicSlideshow";
 import {
   DailyDoseIntro,
   INTRO_FRAMES,
   INTRO_FPS,
   dailyDoseIntroDefaults,
 } from "./compositions/DailyDoseIntro";
-import type { GrahaMeetingProps } from "./graha/types";
-import type { RahuKetuOriginProps } from "./compositions/RahuKetuOrigin";
 import type { DailyDoseIntroProps } from "./compositions/DailyDoseIntro";
 
 export const RemotionRoot: React.FC = () => {
@@ -36,22 +26,28 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={dailyDoseIntroDefaults satisfies DailyDoseIntroProps}
       />
       <Composition
-        id="GrahaMeeting"
-        component={GrahaMeeting}
-        durationInFrames={GRAHA_MEETING_DURATION}
-        fps={GRAHA_MEETING_FPS}
-        width={GRAHA_MEETING_SIZE.width}
-        height={GRAHA_MEETING_SIZE.height}
-        defaultProps={grahaMeetingDefaults satisfies GrahaMeetingProps}
-      />
-      <Composition
-        id="RahuKetuOrigin"
-        component={RahuKetuOrigin}
-        durationInFrames={RAHU_KETU_DURATION}
-        fps={RAHU_KETU_FPS}
+        id="RahuKetuFormatB"
+        component={RahuKetuFormatB}
+        durationInFrames={1800}
+        fps={30}
         width={1080}
         height={1920}
-        defaultProps={rahuKetuDefaults satisfies RahuKetuOriginProps}
+      />
+      <Composition
+        id="DynamicSlideshow"
+        component={DynamicSlideshow}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={defaultDynamicSlideshowProps}
+        calculateMetadata={async ({ props }) => {
+          const intro = props.introFrames ?? 120;
+          const story = props.storyFrames ?? 1500;
+          const end = props.endCardFrames ?? 150;
+          return {
+            durationInFrames: intro + story + end,
+          };
+        }}
       />
     </>
   );
