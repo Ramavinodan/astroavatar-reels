@@ -4,7 +4,7 @@ Listens for commands:
   - /bill : Spending breakdown across third-party services (Day, Week, Month).
   - /status : Daily video production status (Morning & Evening runs, completed/delivered).
   - /sendvideo : Immediately generates and sends a new video to Telegram.
-Automatically saves TELEGRAM_CHAT_ID to .env upon receiving user messages.
+Automatically saves TELEGRAM_CHAT_ID to .env upon receiving user messages or channel posts.
 Runs 24/7 as a background service on the VM.
 """
 import os
@@ -18,7 +18,6 @@ import subprocess
 from typing import Any
 
 from billing_tracker import get_billing_summary, init_billing_db
-
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(ROOT_DIR, "production_history.db")
@@ -142,37 +141,38 @@ def run_bot_daemon():
 
     while True:
         try:
-            url = f"https://api.telegram.org/bot{token}/getUpdates?offset={offset}&timeout=20"
-            res = requests.get(url, timeout=25)
+            url = f"https://api.telegram.org/bot{token}/getUpdates?offset={offset}&timeout=10"
+            res = requests.get(url, timeout=15)
             if res.status_code == 200:
                 data = res.json()
                 if data.get("ok") and data.get("result"):
                     for update in data["result"]:
+                        print(f"[DEBUG UPDATE] Received update: {update}", flush=True)
                         offset = update["update_id"] + 1
-                        msg = update.get("message", {})
-                        text = msg.get("text", "")
+
+                        msg = update.get("message") or update.get("channel_post") or update.get("edited_message") or {}
                         chat = msg.get("chat", {})
                         chat_id = chat.get("id")
+                        text = msg.get("text", "")
 
                         if chat_id:
-                            # Auto-save chat ID so future automated videos reach the user!
                             save_chat_id_to_env(chat_id)
-                            print(f"[Bot Daemon] Captured chat_id: {chat_id} from {chat.get('first_name')}", flush=True)
+                            print(f"[Bot Daemon] Captured chat_id: {chat_id} from {chat.get('first_name') or chat.get('title')}", flush=True)
 
                         if chat_id and text:
                             reply_text = handle_telegram_command(text)
                             if not reply_text:
                                 reply_text = handle_telegram_command("/help")
-                            
-                            requests.post(
+
+                            post_res = requests.post(
                                 f"https://api.telegram.org/bot{token}/sendMessage",
                                 json={"chat_id": chat_id, "text": reply_text, "parse_mode": "Markdown"},
                                 timeout=15
                             )
-                            print(f"[Bot Command Handled] User {chat_id} issued: '{text}' -> Sent response.", flush=True)
+                            print(f"[Bot Command Handled] Response status: {post_res.status_code} {post_res.text[:100]}", flush=True)
         except Exception as e:
             print(f"[Bot Daemon Warning] {e}", flush=True)
-            time.sleep(5)
+            time.sleep(3)
 
         time.sleep(1)
 
