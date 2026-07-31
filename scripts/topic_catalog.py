@@ -14,13 +14,13 @@ def get_next_topic() -> Dict[str, Any]:
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     
-    # Get a random unused topic
-    cursor.execute("SELECT * FROM topic_catalog WHERE used_count = 0 ORDER BY RANDOM() LIMIT 1")
+    # Get a random unused topic that has a pre-generated script
+    cursor.execute("SELECT * FROM topic_catalog WHERE used_count = 0 AND pregenerated_json IS NOT NULL ORDER BY RANDOM() LIMIT 1")
     row = cursor.fetchone()
     
     if not row:
-        # If all used, pick the oldest used one
-        cursor.execute("SELECT * FROM topic_catalog ORDER BY used_count ASC, created_at ASC LIMIT 1")
+        # If all used, pick the oldest used one that has a pre-generated script
+        cursor.execute("SELECT * FROM topic_catalog WHERE pregenerated_json IS NOT NULL ORDER BY used_count ASC, created_at ASC LIMIT 1")
         row = cursor.fetchone()
         
     if not row:

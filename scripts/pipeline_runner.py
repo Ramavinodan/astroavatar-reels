@@ -84,11 +84,12 @@ def run_pipeline(dry_run: bool = False) -> bool:
         topic_info = get_next_topic()
         print(f"[Topic Selector] Picked topic: '{topic_info['title']}' ({topic_info['category']})")
 
-        # Step 2: Generate Script & Story JSON
-        llm_key = os.getenv("SARVAM_API_KEY") or os.getenv("OPENAI_API_KEY") or os.getenv("DEEPSEEK_API_KEY")
-        provider = "sarvam" if os.getenv("SARVAM_API_KEY") else "openai"
-        story_data = generate_story_llm(topic_info, api_key=llm_key, provider=provider)
-        print(f"[Script Generator] Script generated ({len(story_data.get('script_hi', ''))} chars, {len(story_data.get('slides', []))} slides)")
+        # Step 2: Use Pre-Generated Script JSON
+        if not topic_info.get('pregenerated_json'):
+            raise ValueError(f"Topic {topic_info['id']} does not have pregenerated_json in the database!")
+        import json
+        story_data = json.loads(topic_info['pregenerated_json'])
+        print(f"[Script Generator] Loaded pre-generated script ({len(story_data.get('script_hi', ''))} chars, {len(story_data.get('slides', []))} slides)")
 
         # Step 3: Generate AI Images
         slides_with_images = generate_slide_images(story_data, PUBLIC_DIR)
