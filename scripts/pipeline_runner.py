@@ -88,11 +88,7 @@ def run_pipeline(dry_run: bool = False) -> bool:
             raise ValueError(f"Topic {topic_info['id']} does not have pregenerated_json in the database!")
         import json
         story_data = json.loads(topic_info['pregenerated_json'])
-        
-        # Assemble narration script dynamically from subtitles so they perfectly match
-        story_data["script_hi"] = " ".join(s.get("caption", "") for s in story_data.get("slides", []))
-        
-        print(f"[Script Generator] Loaded script ({len(story_data.get('script_hi', ''))} chars, {len(story_data.get('slides', []))} slides)")
+        print(f"[Script Generator] Loaded pre-generated script ({len(story_data.get('script_hi', ''))} chars, {len(story_data.get('slides', []))} slides)")
 
         # Step 3: Verify Pre-Generated AI Images
         print("[Pipeline] Verifying pre-generated images...")
