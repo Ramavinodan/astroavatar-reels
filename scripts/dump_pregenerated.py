@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "production_history.db")
-SQL_OUT_PATH = os.path.join(os.path.dirname(__file__), "pregenerated_scripts.sql")
+SQL_OUT_PATH = os.path.join(os.path.dirname(__file__), "..", "sql", "pregenerated_scripts.sql")
 
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
