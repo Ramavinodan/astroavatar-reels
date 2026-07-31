@@ -121,7 +121,10 @@ def run_pipeline(dry_run: bool = False) -> bool:
 
         timestamp_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         props_file = os.path.join(OUT_DIR, f"props_{timestamp_str}.json")
-        output_mp4 = os.path.join(OUT_DIR, f"reel_{story_data['story_id']}_{timestamp_str}.mp4")
+        
+        videos_dir = os.path.join(ROOT_DIR, "videos")
+        os.makedirs(videos_dir, exist_ok=True)
+        output_mp4 = os.path.join(videos_dir, f"{story_data['story_id']}.mp4")
 
         with open(props_file, "w", encoding="utf-8") as f:
             json.dump(props, f, ensure_ascii=False, indent=2)
