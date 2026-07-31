@@ -32,9 +32,7 @@ def generate_narration_audio(story_data: Dict[str, Any], public_dir: str) -> Dic
     success = generate_omnivoice_tts(script_text, raw_wav_path)
 
     if not success:
-        # Check if pre-generated raw audio exists or create fallback audio
-        print("[TTS Pipeline] Using fallback audio generator")
-        create_fallback_audio(script_text, raw_wav_path)
+        raise RuntimeError("OmniVoice TTS generation failed. Please fix this manually to proceed the pipeline.")
 
     # Step 2: Post-process Audio (Bass boost ~8dB + Peak Normalize + BGM overlay)
     post_process_audio(raw_wav_path, final_wav_path)
@@ -58,40 +56,31 @@ def generate_narration_audio(story_data: Dict[str, Any], public_dir: str) -> Dic
 def generate_omnivoice_tts(text: str, save_path: str) -> bool:
     """Invokes OmniVoice TTS with locked instruct options."""
     try:
+        import shutil
+        import os
+        cli_path = shutil.which("omnivoice-infer") or "omnivoice-infer"
+
         cmd = [
-            "omnivoice-infer",
+            cli_path,
             "--text", text,
             "--instruct", "male, middle-aged, indian accent, moderate pitch",
             "--speed", "0.95",
             "--num_step", "40",
-            "--seed", "42",
-            "--output_file", save_path
+            "--output", save_path
         ]
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
         if res.returncode == 0 and os.path.exists(save_path):
             print(f"[OmniVoice] Speech generated -> {save_path}")
             return True
+        else:
+            print(f"[OmniVoice] Error: returncode={res.returncode}, stderr={res.stderr}")
     except Exception as e:
         print(f"[OmniVoice] OmniVoice CLI not found or failed: {e}")
     return False
 
 
 
-def create_fallback_audio(text: str, save_path: str):
-    """Fallback: copy rahu-ketu-hi.wav if present or generate silence wav."""
-    default_audio = "reels-factory/public/narration/rahu-ketu-hi.wav"
-    if os.path.exists(default_audio):
-        import shutil
-        shutil.copy(default_audio, save_path)
-    else:
-        # Create 50 second silent WAV
-        sample_rate = 22050
-        num_samples = sample_rate * 50
-        with wave.open(save_path, "w") as f:
-            f.setnchannels(1)
-            f.setsampwidth(2)
-            f.setframerate(sample_rate)
-            f.writeframes(b"\x00\x00" * num_samples)
+
 
 def post_process_audio(input_wav: str, output_wav: str):
     """Applies bass boost, normalization, and optional BGM via ffmpeg."""
@@ -105,10 +94,8 @@ def post_process_audio(input_wav: str, output_wav: str):
         ]
         subprocess.run(cmd, capture_output=True, check=True)
         print(f"[Audio FX] Post-processing complete -> {output_wav}")
-    except Exception:
-        # If ffmpeg filter fails, simple copy
-        import shutil
-        shutil.copy(input_wav, output_wav)
+    except Exception as e:
+        raise RuntimeError(f"Audio post-processing failed: {e}. Please fix this manually to proceed the pipeline.")
 
 def get_audio_duration(wav_path: str) -> float:
     """Returns audio file duration in seconds."""

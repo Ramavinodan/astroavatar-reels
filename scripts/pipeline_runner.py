@@ -90,8 +90,17 @@ def run_pipeline(dry_run: bool = False) -> bool:
         story_data = json.loads(topic_info['pregenerated_json'])
         print(f"[Script Generator] Loaded pre-generated script ({len(story_data.get('script_hi', ''))} chars, {len(story_data.get('slides', []))} slides)")
 
-        # Step 3: Generate AI Images
-        print("[Pipeline] Skipping image generation as requested. Waiting for Gemini API integration...")
+        # Step 3: Verify Pre-Generated AI Images
+        print("[Pipeline] Verifying pre-generated images...")
+        for idx, slide in enumerate(story_data.get("slides", [])):
+            if not slide.get("image_path"):
+                raise ValueError(f"Slide {idx+1} is missing an 'image_path'. Image generation is disabled. Please fix this manually to proceed the pipeline.")
+            
+            img_full_path = os.path.join(PUBLIC_DIR, slide["image_path"].lstrip("/"))
+            if not os.path.exists(img_full_path):
+                raise FileNotFoundError(f"Image for slide {idx+1} not found at {img_full_path}. Please fix this manually to proceed the pipeline.")
+        
+        print("[Pipeline] All pre-generated images verified successfully.")
 
         # Step 4: Generate TTS & Compute Audio Timestamps
         audio_info = generate_narration_audio(story_data, PUBLIC_DIR)
@@ -129,20 +138,12 @@ def run_pipeline(dry_run: bool = False) -> bool:
             "npx", "remotion", "render", "DynamicSlideshow", output_mp4,
             f"--props={props_file}",
             "--crf=24",
-            "--jpeg-quality=80",
-            "--gl=angle"
+            "--jpeg-quality=80"
         ]
         
         res = subprocess.run(render_cmd, cwd=REMOTION_DIR, capture_output=True, text=True)
         if res.returncode != 0:
-            # Fallback render command without --gl flag
-            fallback_cmd = [
-                "npx", "remotion", "render", "DynamicSlideshow", output_mp4,
-                f"--props={props_file}",
-                "--crf=24",
-                "--jpeg-quality=80"
-            ]
-            res = subprocess.run(fallback_cmd, cwd=REMOTION_DIR, capture_output=True, text=True, check=True)
+            raise RuntimeError(f"Remotion Render failed (Exit {res.returncode}). Logs: {res.stderr}\nPlease fix this manually to proceed the pipeline.")
 
 
 
