@@ -106,57 +106,24 @@ export const PremiumIntro: React.FC<PremiumIntroProps> = ({
         />
       </AbsoluteFill>
 
-      {/* Typography */}
+      {/* Centered App Logo */}
       <div
         style={{
           position: "absolute",
-          top: "60%",
-          left: 48,
-          right: 48,
-          textAlign: "center",
+          top: "50%",
+          left: "50%",
+          transform: `translate(-50%, -50%) scale(1.15) translateY(${titleY}px)`,
+          opacity: titleOpacity,
           display: "flex",
-          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
-          gap: "16px",
+          filter: "drop-shadow(0 0 20px rgba(0,0,0,0.8))"
         }}
       >
-        {/* Elegant Chip */}
-        <div
-          style={{
-            opacity: chipOpacity,
-            transform: `translateY(${chipY}px)`,
-            display: "inline-block",
-            padding: "12px 32px",
-            borderRadius: 999,
-            border: "1px solid rgba(255, 215, 0, 0.6)",
-            background: "rgba(0, 0, 0, 0.6)",
-            backdropFilter: "blur(10px)",
-            color: "#FFD700",
-            fontSize: 26,
-            fontWeight: 600,
-            letterSpacing: 2,
-            boxShadow: "0 4px 30px rgba(255, 215, 0, 0.2)",
-            textTransform: "uppercase"
-          }}
-        >
-          {ON_SCREEN_CHIP}
-        </div>
-
-        {/* Cinematic Title */}
-        <div
-          style={{
-            opacity: titleOpacity,
-            transform: `translateY(${titleY}px)`,
-            color: "#FFFFFF",
-            fontSize: 48,
-            fontWeight: 800,
-            lineHeight: 1.3,
-            textShadow: "0 8px 30px rgba(0,0,0,0.8)",
-            padding: "0 20px"
-          }}
-        >
-          {LOCKED_WELCOME_HI}
-        </div>
+        <Img
+          src={staticFile("brand/astroavatar_logo.png")}
+          style={{ width: 450, height: "auto" }}
+        />
       </div>
 
       {narrationFile ? <Audio src={staticFile(narrationFile)} /> : null}
