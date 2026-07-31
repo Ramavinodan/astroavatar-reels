@@ -1,6 +1,6 @@
 """
 Billing & Spending Tracker for AstroAvatar Video Production.
-Tracks per-video usage of Sarvam AI LLM, Sarvam AI TTS, AI Image Gen, and Compute.
+Tracks per-video usage of Compute (Free Tier currently).
 Computes daily, weekly, and monthly cost breakdowns.
 """
 import os
@@ -12,11 +12,8 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(ROOT_DIR, "production_history.db")
 
 # Approximate Pricing Rates (INR ₹)
-# Sarvam LLM (105b): ~₹0.15 per 10,000 characters
-SARVAM_LLM_RATE_PER_CHAR = 0.00015 
-# Sarvam TTS (bulbul:v2): ~₹0.20 per 1,000 characters
-SARVAM_TTS_RATE_PER_CHAR = 0.00020
-# Pollinations AI Images: ₹0.00 (Free)
+LLM_RATE_PER_CHAR = 0.0
+TTS_RATE_PER_CHAR = 0.0
 IMAGE_GEN_RATE_PER_IMAGE = 0.0
 # Oracle ARM VM Compute: ₹0.00 (Free Tier)
 COMPUTE_RATE_PER_VIDEO = 0.0
@@ -45,8 +42,8 @@ def log_video_cost(story_id: str, script_text: str, slides_count: int) -> Dict[s
     init_billing_db()
     
     script_chars = len(script_text)
-    llm_cost = script_chars * SARVAM_LLM_RATE_PER_CHAR
-    tts_cost = script_chars * SARVAM_TTS_RATE_PER_CHAR
+    llm_cost = script_chars * LLM_RATE_PER_CHAR
+    tts_cost = script_chars * TTS_RATE_PER_CHAR
     image_cost = slides_count * IMAGE_GEN_RATE_PER_IMAGE
     total_cost = llm_cost + tts_cost + image_cost
 
@@ -105,22 +102,22 @@ def get_billing_summary() -> str:
     summary = (
         "💳 *Third-Party Services Billing Summary*\n\n"
         f"📅 *Today ({today_str}):*\n"
-        f"  • Sarvam LLM Scripting: ₹{today_data['llm']:.3f}\n"
-        f"  • Sarvam TTS Narration: ₹{today_data['tts']:.3f}\n"
-        f"  • AI Image Generation: ₹{today_data['images']:.2f} (Free)\n"
+        f"  • LLM Scripting: ₹{today_data['llm']:.3f}\n"
+        f"  • TTS Narration: ₹{today_data['tts']:.3f}\n"
+        f"  • AI Image Generation: ₹{today_data['images']:.2f}\n"
         f"  • Compute/Hosting: ₹0.00 (Free Tier)\n"
         f"  👉 *Today Total:* ₹{today_data['total']:.3f} (~${today_data['total']/86:.4f})\n\n"
         
         f"🗓 *This Week (Last 7 Days):*\n"
         f"  • Videos Generated: {week_data['count']}\n"
-        f"  • Sarvam LLM: ₹{week_data['llm']:.3f}\n"
-        f"  • Sarvam TTS: ₹{week_data['tts']:.3f}\n"
+        f"  • LLM: ₹{week_data['llm']:.3f}\n"
+        f"  • TTS: ₹{week_data['tts']:.3f}\n"
         f"  👉 *Week Total:* ₹{week_data['total']:.3f} (~${week_data['total']/86:.4f})\n\n"
 
         f"📆 *This Month (Last 30 Days):*\n"
         f"  • Videos Generated: {month_data['count']}\n"
-        f"  • Sarvam LLM: ₹{month_data['llm']:.3f}\n"
-        f"  • Sarvam TTS: ₹{month_data['tts']:.3f}\n"
+        f"  • LLM: ₹{month_data['llm']:.3f}\n"
+        f"  • TTS: ₹{month_data['tts']:.3f}\n"
         f"  👉 *Month Total:* ₹{month_data['total']:.3f} (~${month_data['total']/86:.4f})\n\n"
         f"⚡ *Efficiency:* Ultra low-cost AI pipeline (< ₹0.50 per video)."
     )

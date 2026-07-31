@@ -14,8 +14,7 @@ import traceback
 from typing import Dict, Any
 
 from topic_catalog import get_next_topic
-from story_generator import generate_story_llm
-from image_generator import generate_slide_images
+
 from tts_generator import generate_narration_audio
 from telegram_publisher import send_video_to_telegram, send_alert_to_telegram
 
@@ -92,8 +91,7 @@ def run_pipeline(dry_run: bool = False) -> bool:
         print(f"[Script Generator] Loaded pre-generated script ({len(story_data.get('script_hi', ''))} chars, {len(story_data.get('slides', []))} slides)")
 
         # Step 3: Generate AI Images
-        slides_with_images = generate_slide_images(story_data, PUBLIC_DIR)
-        story_data["slides"] = slides_with_images
+        print("[Pipeline] Skipping image generation as requested. Waiting for Gemini API integration...")
 
         # Step 4: Generate TTS & Compute Audio Timestamps
         audio_info = generate_narration_audio(story_data, PUBLIC_DIR)

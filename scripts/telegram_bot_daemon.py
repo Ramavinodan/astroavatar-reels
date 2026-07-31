@@ -146,22 +146,22 @@ def get_billing_html_summary() -> str:
     summary = (
         "💳 <b>Third-Party Services Billing Summary</b>\n\n"
         f"📅 <b>Today ({today_str}):</b>\n"
-        f"  • Sarvam LLM Scripting: ₹{today_data['llm']:.3f}\n"
-        f"  • Sarvam TTS Narration: ₹{today_data['tts']:.3f}\n"
-        f"  • AI Image Generation: ₹{today_data['images']:.2f} (Free)\n"
+        f"  • LLM Scripting: ₹{today_data['llm']:.3f}\n"
+        f"  • TTS Narration: ₹{today_data['tts']:.3f}\n"
+        f"  • AI Image Generation: ₹{today_data['images']:.2f}\n"
         f"  • Compute/Hosting: ₹0.00 (Free Tier)\n"
         f"  👉 <b>Today Total:</b> ₹{today_data['total']:.3f} (~${today_data['total']/86:.4f})\n\n"
         
         f"🗓 <b>This Week (Last 7 Days):</b>\n"
         f"  • Videos Generated: {week_data['count']}\n"
-        f"  • Sarvam LLM: ₹{week_data['llm']:.3f}\n"
-        f"  • Sarvam TTS: ₹{week_data['tts']:.3f}\n"
+        f"  • LLM: ₹{week_data['llm']:.3f}\n"
+        f"  • TTS: ₹{week_data['tts']:.3f}\n"
         f"  👉 <b>Week Total:</b> ₹{week_data['total']:.3f} (~${week_data['total']/86:.4f})\n\n"
 
         f"📆 <b>This Month (Last 30 Days):</b>\n"
         f"  • Videos Generated: {month_data['count']}\n"
-        f"  • Sarvam LLM: ₹{month_data['llm']:.3f}\n"
-        f"  • Sarvam TTS: ₹{month_data['tts']:.3f}\n"
+        f"  • LLM: ₹{month_data['llm']:.3f}\n"
+        f"  • TTS: ₹{month_data['tts']:.3f}\n"
         f"  👉 <b>Month Total:</b> ₹{month_data['total']:.3f} (~${month_data['total']/86:.4f})\n\n"
         f"⚡ <b>Efficiency:</b> Ultra low-cost AI pipeline (&lt; ₹0.50 per video)."
     )
@@ -178,7 +178,7 @@ def handle_telegram_command(command: str) -> str:
         return "📤 <b>Fetching Latest Video...</b> I am retrieving the most recently generated reel. It will be sent to this chat shortly!"
     elif cmd.startswith("/sendvideo"):
         subprocess.Popen([sys.executable, os.path.join(ROOT_DIR, "scripts", "pipeline_runner.py")])
-        return "🎬 <b>Video production triggered!</b> Generating a new reel using Sarvam AI & Remotion. The video will be sent to this chat upon completion (~2 mins)."
+        return "🎬 <b>Video production triggered!</b> Generating a new reel using the local pregenerated JSON pipeline. The video will be sent to this chat upon completion (~2 mins)."
     elif cmd.startswith("/start") or cmd.startswith("/help"):
         return (
             "🤖 <b>AstroAvatar Automated Reels Bot</b>\n\n"

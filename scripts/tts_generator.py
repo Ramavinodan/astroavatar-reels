@@ -1,6 +1,6 @@
 """
 TTS & Audio Processing Pipeline for AstroAvatar Reels.
-- OmniVoice TTS (or Sarvam AI Hindi TTS fallback)
+- OmniVoice TTS
 - Bass boost (~8dB) + peak normalization
 - Soft background music (BGM) mixing
 - Accurate audio duration & per-slide timestamp calculation
@@ -28,14 +28,8 @@ def generate_narration_audio(story_data: Dict[str, Any], public_dir: str) -> Dic
 
     print(f"[TTS Pipeline] Generating speech audio for story: {story_id}")
 
-    # Step 1: Generate Raw Speech (OmniVoice CLI / Python or Sarvam API or Edge TTS fallback)
-    success = False
-    sarvam_key = os.getenv("SARVAM_API_KEY")
-    if sarvam_key:
-        success = generate_sarvam_tts(script_text, raw_wav_path, sarvam_key)
-    
-    if not success:
-        success = generate_omnivoice_tts(script_text, raw_wav_path)
+    # Step 1: Generate Raw Speech (OmniVoice CLI / Python)
+    success = generate_omnivoice_tts(script_text, raw_wav_path)
 
     if not success:
         # Check if pre-generated raw audio exists or create fallback audio
@@ -81,35 +75,7 @@ def generate_omnivoice_tts(text: str, save_path: str) -> bool:
         print(f"[OmniVoice] OmniVoice CLI not found or failed: {e}")
     return False
 
-def generate_sarvam_tts(text: str, save_path: str, api_key: str) -> bool:
-    """Invokes Sarvam AI Text-to-Speech API."""
-    import requests
-    url = "https://api.sarvam.ai/text-to-speech"
-    headers = {"api-subscription-key": api_key, "Content-Type": "application/json"}
-    payload = {
-        "inputs": [text],
-        "target_language_code": "hi-IN",
-        "speaker": "hitesh",
-        "pitch": 0,
-        "pace": 0.95,
-        "loudness": 1.5,
-        "speech_sample_rate": 22050,
-        "enable_preprocessing": True,
-        "model": "bulbul:v2"
-    }
 
-    try:
-        res = requests.post(url, json=payload, headers=headers, timeout=30)
-        if res.status_code == 200:
-            audio_base64 = res.json()["audios"][0]
-            import base64
-            with open(save_path, "wb") as f:
-                f.write(base64.b64decode(audio_base64))
-            print(f"[Sarvam TTS] Speech generated -> {save_path}")
-            return True
-    except Exception as e:
-        print(f"[Sarvam TTS] API call failed: {e}")
-    return False
 
 def create_fallback_audio(text: str, save_path: str):
     """Fallback: copy rahu-ketu-hi.wav if present or generate silence wav."""
