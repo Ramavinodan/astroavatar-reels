@@ -130,7 +130,6 @@ def run_pipeline(dry_run: bool = False) -> bool:
             f"--props={props_file}",
             "--crf=24",
             "--jpeg-quality=80",
-            "--concurrency=2",
             "--gl=angle"
         ]
         
@@ -141,8 +140,7 @@ def run_pipeline(dry_run: bool = False) -> bool:
                 "npx", "remotion", "render", "DynamicSlideshow", output_mp4,
                 f"--props={props_file}",
                 "--crf=24",
-                "--jpeg-quality=80",
-                "--concurrency=2"
+                "--jpeg-quality=80"
             ]
             res = subprocess.run(fallback_cmd, cwd=REMOTION_DIR, capture_output=True, text=True, check=True)
 
