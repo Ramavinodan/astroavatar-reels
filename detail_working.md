@@ -106,6 +106,7 @@ To generate the scripts and assets for the remaining 60+ videos in the database,
    *   The `caption` for each slide should be a condensed, easy-to-read on-screen subtitle that roughly aligns with what is being spoken in the `script_hi` during that slide's duration.
    *   Save this JSON directly into the `pregenerated_json` column for that topic's row in `topic_catalog`.
 
-4. **Generate the Images**: After saving the JSON, use your image generation capabilities to process every `image_prompt` in the JSON, and save the 9:16 images to `reels-factory/public/pregenerated_images/<story_id>/slide_<index>.png`.
+4. **Generate the Images**: After saving the JSON, use your image generation capabilities to process every `image_prompt` in the JSON, and save the 9:16 images to `reels-factory/public/pregenerated_images/<story_id>/slide_<index>.png`. 
+   *(Note: You do not need to add the `image_path` field into the JSON, the pipeline will dynamically find the image as long as it is saved with the correct naming convention.)*
 
 Once the JSON is in the database and the images are in the folder, simply run `python3 scripts/pipeline_runner.py` to produce the final video!

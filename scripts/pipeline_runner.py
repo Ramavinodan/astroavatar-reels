@@ -92,14 +92,16 @@ def run_pipeline(dry_run: bool = False) -> bool:
 
         # Step 3: Verify Pre-Generated AI Images
         print("[Pipeline] Verifying pre-generated images...")
-        for idx, slide in enumerate(story_data.get("slides", [])):
-            if not slide.get("image_path"):
-                raise ValueError(f"Slide {idx+1} is missing an 'image_path'. Image generation is disabled. Please fix this manually to proceed the pipeline.")
-            
-            img_full_path = os.path.join(PUBLIC_DIR, slide["image_path"].lstrip("/"))
-            if not os.path.exists(img_full_path):
-                raise FileNotFoundError(f"Image for slide {idx+1} not found at {img_full_path}. Please fix this manually to proceed the pipeline.")
         
+        for idx, slide in enumerate(story_data.get("slides", [])):
+            expected_image_path = f"/pregenerated_images/{story_data['story_id']}/slide_{slide.get('slide_index', idx+1)}.png"
+            full_path = os.path.join(PUBLIC_DIR, expected_image_path.lstrip("/"))
+            
+            if os.path.exists(full_path):
+                slide["image_path"] = expected_image_path
+            else:
+                raise ValueError(f"Slide {idx+1} is missing image file at {full_path}. Image generation is disabled. Please generate it manually.")
+                
         print("[Pipeline] All pre-generated images verified successfully.")
 
         # Step 4: Generate TTS & Compute Audio Timestamps
