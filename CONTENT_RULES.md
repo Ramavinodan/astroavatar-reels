@@ -1,7 +1,7 @@
 # Reels Content Rules — AstroAvatar (Fully Automated Production)
 
 **Audience for this file:** Automated AI agents, script generators, and developers producing Reels in this repo.
-Follow every section before generating scripts, OmniVoice/Sarvam TTS, AI visuals, or rendering.
+Follow every section before generating scripts, OmniVoice TTS, AI visuals, or rendering.
 
 **Product context:** **AstroAvatar** mobile app growth via Instagram + Facebook Reels (mythology + jyotish education). No founder face. Programmatic video generation.  
 **Brand lock:** Product name is **AstroAvatar** only. Never use legacy or unauthorized names.
@@ -61,7 +61,7 @@ Every video MUST contain these three parts in order:
 
 ## 4. TTS & Audio Profile
 
-- **Primary TTS Engine:** OmniVoice / Sarvam AI Hindi TTS (`bulbul:v1` or `meera` voice).
+- **Primary TTS Engine:** OmniVoice Hindi TTS.
 - **Locked Voice Profile:** Male/Female warm Indian storyteller, speed `0.95`.
 - **Audio Post-Processing:**
   - Bass boost (~8.0 dB)

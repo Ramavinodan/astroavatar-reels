@@ -20,7 +20,7 @@ const { fontFamily } = loadFont("normal", {
 });
 
 export type DynamicSlide = {
-  file: string;
+  image_path: string;
   caption: string;
   endSec: number;
 };
@@ -47,20 +47,20 @@ export const defaultDynamicSlideshowProps: DynamicSlideshowProps = {
   storyFrames: 1575, // 52.5 seconds * 30 fps
   endCardFrames: 150, // 5 seconds * 30 fps
   slides: [
-    { file: "formats/slideshow/slide-01-title.png", caption: "आज — राहु और केतु कैसे बने", endSec: 3.2 },
-    { file: "formats/slideshow/slide-02-listen.png", caption: "सुनो… एक पुरानी बात", endSec: 6.0 },
-    { file: "formats/slideshow/slide-03-churn.png", caption: "देवता-असुर समुद्र मंथन कर रहे थे", endSec: 11.5 },
-    { file: "formats/slideshow/slide-04-amrita.png", caption: "अमृत निकला — अमर होने वाला अमृत", endSec: 15.5 },
-    { file: "formats/slideshow/slide-05-mohini.png", caption: "मोहिनी रूप में अमृत बाँटने लगीं", endSec: 20.0 },
-    { file: "formats/slideshow/slide-06-sneak.png", caption: "एक असुर चुपके से लाइन में घुस आया", endSec: 24.0 },
-    { file: "formats/slideshow/slide-07-svarbhanu.png", caption: "उसका नाम था स्वर्भानु", endSec: 27.0 },
-    { file: "formats/slideshow/slide-08-drank-surya.png", caption: "अमृत पी लिया · सूर्य-चंद्र ने पकड़ा", endSec: 32.0 },
-    { file: "formats/slideshow/slide-09-alert.png", caption: "भेस पकड़ लिया · सच खोल दिया", endSec: 35.5 },
-    { file: "formats/slideshow/slide-10-chakra.png", caption: "सुदर्शन चक्र · सिर अलग · शरीर अलग", endSec: 40.0 },
-    { file: "formats/slideshow/slide-11-alive-rahu.png", caption: "पर अजीब बात… वो मरा ही नहीं", endSec: 44.0 },
-    { file: "formats/slideshow/slide-12-ketu.png", caption: "सिर बना राहु · शरीर बना केतु", endSec: 47.5 },
-    { file: "formats/slideshow/slide-13-eclipse.png", caption: "इसीलिए ग्रहण लगता है", endSec: 50.5 },
-    { file: "formats/slideshow/slide-14-remember.png", caption: "ये सिर्फ अँधेरा नहीं — एक पुरानी कथा", endSec: 52.5 },
+    { image_path: "formats/slideshow/slide-01-title.png", caption: "आज — राहु और केतु कैसे बने", endSec: 3.2 },
+    { image_path: "formats/slideshow/slide-02-listen.png", caption: "सुनो… एक पुरानी बात", endSec: 6.0 },
+    { image_path: "formats/slideshow/slide-03-churn.png", caption: "देवता-असुर समुद्र मंथन कर रहे थे", endSec: 11.5 },
+    { image_path: "formats/slideshow/slide-04-amrita.png", caption: "अमृत निकला — अमर होने वाला अमृत", endSec: 15.5 },
+    { image_path: "formats/slideshow/slide-05-mohini.png", caption: "मोहिनी रूप में अमृत बाँटने लगीं", endSec: 20.0 },
+    { image_path: "formats/slideshow/slide-06-sneak.png", caption: "एक असुर चुपके से लाइन में घुस आया", endSec: 24.0 },
+    { image_path: "formats/slideshow/slide-07-svarbhanu.png", caption: "उसका नाम था स्वर्भानु", endSec: 27.0 },
+    { image_path: "formats/slideshow/slide-08-drank-surya.png", caption: "अमृत पी लिया · सूर्य-चंद्र ने पकड़ा", endSec: 32.0 },
+    { image_path: "formats/slideshow/slide-09-alert.png", caption: "भेस पकड़ लिया · सच खोल दिया", endSec: 35.5 },
+    { image_path: "formats/slideshow/slide-10-chakra.png", caption: "सुदर्शन चक्र · सिर अलग · शरीर अलग", endSec: 40.0 },
+    { image_path: "formats/slideshow/slide-11-alive-rahu.png", caption: "पर अजीब बात… वो मरा ही नहीं", endSec: 44.0 },
+    { image_path: "formats/slideshow/slide-12-ketu.png", caption: "सिर बना राहु · शरीर बना केतु", endSec: 47.5 },
+    { image_path: "formats/slideshow/slide-13-eclipse.png", caption: "इसीलिए ग्रहण लगता है", endSec: 50.5 },
+    { image_path: "formats/slideshow/slide-14-remember.png", caption: "ये सिर्फ अँधेरा नहीं — एक पुरानी कथा", endSec: 52.5 },
   ],
 };
 
@@ -206,7 +206,7 @@ const SlideshowBody: React.FC<{
       {/* Background Image with Ken Burns effect */}
       <AbsoluteFill style={{ opacity: fade, overflow: "hidden" }}>
         <Img
-          src={staticFile(active.file)}
+          src={staticFile(active.image_path)}
           style={{
             width: "110%",
             height: "110%",

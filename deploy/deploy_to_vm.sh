@@ -19,3 +19,4 @@ ssh -i "$KEY_PATH" -o StrictHostKeyChecking=no $VM_USER@$VM_HOST "bash $REMOTE_D
 echo "=========================================================="
 echo "🎉 Remote VM Updated via Git Successfully!"
 echo "=========================================================="
+
