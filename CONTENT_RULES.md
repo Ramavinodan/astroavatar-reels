@@ -11,10 +11,14 @@ Follow every section before generating scripts, OmniVoice TTS, AI visuals, or re
 ## 0. Mission & Operational Target
 
 **Fully automated daily 2x video production pipeline running 24/7 on remote VM.**
-- **Schedule:** 2 videos daily (08:00 AM & 18:00 PM local time).
+- **Strategy Split:** We use a 2-Phase growth strategy:
+  - **Phase 1 (30sec "Acquisition"):** The primary pipeline for our new page with low followers. It uses short, punchy 15-30s videos to maximize completion rates and acquire new followers efficiently. (We trialed four 90s videos initially with little result, prompting this pivot).
+  - **Phase 2 (90sec "Retention"):** For deep-dives and established audiences. We will pivot back to this once the page reaches significant followers.
 - **Delivery:** Delivered directly to user's Telegram account/bot with post caption & hashtags.
 - **Intervention:** 0 manual entry points. Self-healing with automated monitoring and error alerts.
-- **Target Video Length:** 60s to 90s max (1 min to 1 min 30 sec). Controlled by script length.
+- **Target Video Length:** 
+  - `30sec` pipeline: 15s to 30s max.
+  - `90sec` pipeline: 60s to 90s max.
 
 ---
 
@@ -52,10 +56,14 @@ Every video MUST contain these three parts in order:
 - Grounded in authentic Hindu culture, Ramayana, Mahabharata, Bhagavad Gita, Puranas, and Jyotish (astrology) wisdom.
 
 ### Length Control (CRITICAL)
-- **Minimum total reel duration:** ≥ 60 seconds (1 minute).
-- **Maximum total reel duration:** ≤ 90 seconds (1 min 30 seconds).
-- **Word count target:** ~130 to 160 Hindi words for the story body (~50–75s speech).
-- **Multi-Part Series Handling:** If a story is long, automatically break it into `Part 1`, `Part 2`, etc., with cliffhangers ("भाग 1/2").
+- **Phase 1 (30sec pipeline):**
+  - **Target duration:** 15–30 seconds.
+  - **Format:** "Hook-Fact-Action" micro-moments. First 3 seconds must be a powerful hook. The end must have a Call-to-Action (CTA).
+  - **Word count target:** ~45 to 60 Hindi words.
+- **Phase 2 (90sec pipeline):**
+  - **Target duration:** 60–90 seconds.
+  - **Word count target:** ~130 to 160 Hindi words.
+  - **Multi-Part Series Handling:** If a story is long, automatically break it into `Part 1`, `Part 2`, etc., with cliffhangers ("भाग 1/2").
 
 ---
 

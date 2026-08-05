@@ -16,7 +16,8 @@ Complete technical architecture documentation for the zero-flaw, 100% automated 
 +-----------------------------------------------------------------------------------+
 |                            CENTRAL PIPELINE ORCHESTRATOR                          |
 |                             (scripts/pipeline_runner.py)                          |
-|  - SQLite DB (production_history.db) tracking topics, series, and sent videos    |
+|  - Runs as two separate parallel instances: `30sec/` and `90sec/`                 |
+|  - Independent SQLite DBs (`production_history.db`) in each folder                |
 |  - Automatic retries & Telegram monitoring alerts on failure                       |
 +-----------------------------------------------------------------------------------+
     |                   |                       |                      |
@@ -87,9 +88,14 @@ Complete technical architecture documentation for the zero-flaw, 100% automated 
 ## 3. Remote VM Deployment & Automation Strategy
 
 - **Remote VM Environment:** Ubuntu 22.04 LTS (ARM64).
-- **Scheduler:** Crontab configured to execute twice daily (08:00 AM & 18:00 PM):
+- **Scheduler:** Crontab configured to execute twice daily (08:00 AM & 18:00 PM). It can run either or both pipelines:
   ```bash
-  0 8 * * * cd /home/ubuntu/astroavatar-reels && /usr/bin/python3 scripts/pipeline_runner.py >> /home/ubuntu/astroavatar-reels/logs/cron.log 2>&1
-  0 18 * * * cd /home/ubuntu/astroavatar-reels && /usr/bin/python3 scripts/pipeline_runner.py >> /home/ubuntu/astroavatar-reels/logs/cron.log 2>&1
+  # Phase 1: 30sec pipeline (Acquisition)
+  0 8 * * * cd /home/ubuntu/astroavatar-reels/30sec && /usr/bin/python3 scripts/pipeline_runner.py >> logs/cron.log 2>&1
+  0 18 * * * cd /home/ubuntu/astroavatar-reels/30sec && /usr/bin/python3 scripts/pipeline_runner.py >> logs/cron.log 2>&1
+  
+  # Phase 2: 90sec pipeline (Retention)
+  # 0 8 * * * cd /home/ubuntu/astroavatar-reels/90sec && /usr/bin/python3 scripts/pipeline_runner.py >> logs/cron.log 2>&1
+  # 0 18 * * * cd /home/ubuntu/astroavatar-reels/90sec && /usr/bin/python3 scripts/pipeline_runner.py >> logs/cron.log 2>&1
   ```
 - **Git Policy:** Strictly **no direct code changes on the VM**. All code changes originate from the local git repository and are deployed via `deploy/deploy_to_vm.sh`.

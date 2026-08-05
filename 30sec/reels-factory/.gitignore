@@ -1,0 +1,8 @@
+node_modules
+dist
+.DS_Store
+.env
+package-lock.json
+
+# Keep rendered trial MP4s under out/ (committed for this project)
+# Remotion default ignores out — we override that here.

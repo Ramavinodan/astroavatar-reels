@@ -1,0 +1,19 @@
+{
+  "voice_mode": "instruct",
+  "ref_audio": null,
+  "instruct": "male, middle-aged, indian accent, moderate pitch",
+  "speed": 0.95,
+  "num_step": 40,
+  "seed": 42,
+  "bass_gain": 8.0,
+  "chunks_welcome": 1,
+  "chunks_story": 1,
+  "welcome_s": 3.68,
+  "story_s": 52.5,
+  "story_voice_s": 52.5,
+  "outro_s": 5.0,
+  "total_est_s": 61.667,
+  "intro_frames": 125,
+  "story_frames": 1575,
+  "end_card_frames": 150
+}

@@ -20,10 +20,12 @@ npm run render:rahu-ketu
 | Path | What |
 |---|---|
 | `CONTENT_RULES.md` | Agent/human production bible |
-| `reels-factory/` | Remotion project |
-| `reels-assets/` | Graha + supporting character packs |
-| `stories/` | Story research + TTS scripts |
-| `reels-factory/out/` | Rendered MP4s |
+| `30sec/` | **Phase 1 Pipeline:** 15-30s Reels for new audience acquisition |
+| `90sec/` | **Phase 2 Pipeline:** 60-90s Reels for established audience depth |
+| `[30sec|90sec]/reels-factory/` | Remotion project |
+| `[30sec|90sec]/scripts/` | Python orchestration, generation, DB |
+| `[30sec|90sec]/sql/` | Database and queries |
+| `[30sec|90sec]/videos/` | Output MP4s |
 
 ## Current approved cut
 
