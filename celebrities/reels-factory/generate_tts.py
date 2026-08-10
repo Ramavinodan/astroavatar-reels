@@ -6,12 +6,12 @@ API_KEY = "sk_fh3k3uri_4Smlkzms2n9ro5dekANCVIql"
 URL = "https://api.sarvam.ai/text-to-speech"
 
 script = """
-How did a bus driver's son become the Rocking Star of Indian Cinema? Let's decode Yash's Kundli. 
-He has a Bharani Ascendant ruled by Venus, giving him magnetic screen presence. 
-But the real magic lies in his 9th house! Venus, Sun, and Mercury form a rare Dhana Yoga here, translating artistic talent into massive wealth. 
-And in his 10th house, Jupiter creates a Neechabhanga Raja Yoga, driving his self-made rise to the top. 
-His Venus Dasha started his acting journey, but the Sun Dasha brought global stardom with K G F! 
-Next is his Moon Dasha, which points to major international ventures. Yash's stars were truly aligned for greatness!
+From a bus driver's son to the unstoppable Rocky Bhai, how did Yash conquer Indian cinema? The secret is in his stars! 
+Born with a Bharani Ascendant ruled by Venus, he was destined for an electrifying screen presence. 
+But look at his 9th house! Venus, Sun, and Mercury unite to form a massive Dhana Yoga, turning pure artistic talent into a box-office goldmine! 
+And it doesn't stop there. In his 10th house, Jupiter creates a powerful Neechabhanga Raja Yoga, fueling his incredible self-made rise from humble beginnings to the absolute top! 
+His Venus Dasha sparked his acting debut, but it was the fiery Sun Dasha that gave the world K G F! 
+Now entering his Moon Dasha, get ready for Yash to dominate on a global scale. The stars have spoken!
 """
 
 payload = {

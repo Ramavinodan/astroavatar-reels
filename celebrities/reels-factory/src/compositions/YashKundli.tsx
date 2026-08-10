@@ -16,11 +16,11 @@ export const YashKundli: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Timing constants matching the 34.85s Sarvam audio
-  const startHouse1 = Math.floor(fps * 6.5); // 6.5s: 1st house (Ascendant)
-  const startHouse9 = Math.floor(fps * 11);  // 11s: 9th house (Dhana Yoga)
-  const startHouse10 = Math.floor(fps * 18); // 18s: 10th house (Neechabhanga Raja Yoga)
-  const startDasha = Math.floor(fps * 24);   // 24s: Dashas (no specific house, maybe highlight 9/10)
+  // Timing constants matching the 41.05s Sarvam audio
+  const startHouse1 = Math.floor(fps * 7);  // 7s: 1st house (Ascendant)
+  const startHouse9 = Math.floor(fps * 12); // 12s: 9th house (Dhana Yoga)
+  const startHouse10 = Math.floor(fps * 20); // 20s: 10th house (Neechabhanga Raja Yoga)
+  const startDasha = Math.floor(fps * 28);  // 28s: Dashas (no specific house, maybe highlight 9/10)
 
   // Determine current target house based on frame
   const currentTargetHouse = useMemo(() => {
@@ -80,22 +80,39 @@ export const YashKundli: React.FC = () => {
   const currentY = interpolate(transitionProgress, [0, 1], [prevCoords.y, targetCoords.y]);
   const scale = currentTargetHouse === 0 && frame < startDasha ? interpolate(transitionProgress, [0, 1], [0, 1]) : 1;
 
-  // Determine which planet image to show in the moving avatar
-  const getPlanetImage = () => {
-    if (frame >= startHouse10) return "guru"; // Jupiter for 10th house Neechabhanga
-    if (frame >= startHouse9) return "shukra"; // Venus for 9th house Dhana Yoga
-    if (frame >= startHouse1) return "shukra"; // Venus rules Bharani Nakshatra (1st house)
-    return "surya"; // Default starting
+  // Determine which planet images to show in the moving avatar
+  const getPlanetImages = () => {
+    if (frame >= startHouse10) return ["guru"]; // Jupiter for 10th house Neechabhanga
+    if (frame >= startHouse9) return ["shukra", "surya", "budha"]; // Venus, Sun, Mercury for 9th house Dhana Yoga
+    if (frame >= startHouse1) return ["shukra"]; // Venus rules Bharani Nakshatra (1st house)
+    return ["surya"]; // Default starting
+  };
+
+  const planetImages = getPlanetImages();
+
+  const getPlanetDisplayName = (key: string) => {
+    const map: Record<string, string> = {
+      shukra: "Venus",
+      surya: "Sun",
+      budha: "Mercury",
+      guru: "Jupiter",
+      mangal: "Mars",
+      chandra: "Moon",
+      shani: "Saturn",
+      rahu: "Rahu",
+      ketu: "Ketu"
+    };
+    return map[key] || key;
   };
 
   // Render subtitles based on timeline
   const getSubtitle = () => {
-    if (frame < fps * 6.5) return "How did a bus driver's son become the Rocking Star of Indian Cinema? Let's decode Yash's Kundli.";
-    if (frame < fps * 11) return "He has a Bharani Ascendant ruled by Venus, giving him magnetic screen presence.";
-    if (frame < fps * 18) return "But the real magic lies in his 9th house! Venus, Sun, and Mercury form a rare Dhana Yoga here, translating artistic talent into massive wealth.";
-    if (frame < fps * 24) return "And in his 10th house, Jupiter creates a Neechabhanga Raja Yoga, driving his self-made rise to the top.";
-    if (frame < fps * 29) return "His Venus Dasha started his acting journey, but the Sun Dasha brought global stardom with K G F!";
-    return "Next is his Moon Dasha, which points to major international ventures. Yash's stars were truly aligned for greatness!";
+    if (frame < fps * 7) return "From a bus driver's son to the unstoppable Rocky Bhai, how did Yash conquer Indian cinema? The secret is in his stars!";
+    if (frame < fps * 12) return "Born with a Bharani Ascendant ruled by Venus, he was destined for an electrifying screen presence.";
+    if (frame < fps * 20) return "But look at his 9th house! Venus, Sun, and Mercury unite to form a massive Dhana Yoga, turning pure artistic talent into a box-office goldmine!";
+    if (frame < fps * 28) return "And it doesn't stop there. In his 10th house, Jupiter creates a powerful Neechabhanga Raja Yoga, fueling his incredible self-made rise from humble beginnings to the absolute top!";
+    if (frame < fps * 35) return "His Venus Dasha sparked his acting debut, but it was the fiery Sun Dasha that gave the world K G F!";
+    return "Now entering his Moon Dasha, get ready for Yash to dominate on a global scale. The stars have spoken!";
   };
 
   const getYogaHighlight = () => {
@@ -118,6 +135,7 @@ export const YashKundli: React.FC = () => {
         }}
       >
         <Audio src={staticFile("audio/yash-narration-full.wav")} />
+        <Audio src={staticFile("audio/bgm-mass.mp3")} volume={0.15} />
 
         <div
           style={{
@@ -139,27 +157,61 @@ export const YashKundli: React.FC = () => {
           <div style={{ position: "relative", width: "800px", height: "800px" }}>
             <KundliChart activeHouses={activeHouses} />
 
-            {/* The Animating Planet Avatar */}
+            {/* The Animating Planet Avatars */}
             <div
               style={{
                 position: "absolute",
                 left: `calc(50% - 400px + ${currentX * 8}px)`, 
                 top: `calc(${currentY * 8}px)`, 
                 transform: `translate(-50%, -50%) scale(${scale})`,
-                width: "120px",
-                height: "120px",
-                borderRadius: "50%",
-                overflow: "hidden",
-                border: "4px solid #ff4444",
-                boxShadow: "0 0 30px rgba(255, 50, 50, 0.8)",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
                 zIndex: 10,
-                transition: "background 0.3s ease",
+                transition: "all 0.3s ease",
               }}
             >
-              <Img
-                src={staticFile(`graha/${getPlanetImage()}/portrait.png`)}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
+              {planetImages.map((planet, idx) => (
+                <div
+                  key={planet}
+                  style={{
+                    position: "relative",
+                    width: "120px",
+                    height: "120px",
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    border: "4px solid #ff4444",
+                    boxShadow: "0 0 30px rgba(255, 50, 50, 0.8)",
+                    marginLeft: idx > 0 ? "-40px" : "0", // Overlap effect
+                    zIndex: 10 - idx, // Keep first one on top
+                    background: "#000"
+                  }}
+                >
+                  <Img
+                    src={staticFile(`graha/${planet}/portrait.png`)}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "0",
+                      left: "0",
+                      width: "100%",
+                      background: "rgba(0, 0, 0, 0.7)",
+                      color: "white",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      padding: "4px 0",
+                      textTransform: "uppercase",
+                      letterSpacing: "1px",
+                    }}
+                  >
+                    {getPlanetDisplayName(planet)}
+                  </div>
+                </div>
+              ))}
             </div>
             
             {yogaHighlight && (
