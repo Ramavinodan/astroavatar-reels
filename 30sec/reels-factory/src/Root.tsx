@@ -14,6 +14,7 @@ import {
 import type { PremiumIntroProps } from "./compositions/PremiumIntro";
 
 import { DynamicKundli } from "./compositions/DynamicKundli";
+import { YashKundli } from "./compositions/YashKundli";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -22,6 +23,14 @@ export const RemotionRoot: React.FC = () => {
         id="DynamicKundli"
         component={DynamicKundli}
         durationInFrames={616}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="YashKundli"
+        component={YashKundli}
+        durationInFrames={1295}
         fps={30}
         width={1080}
         height={1920}

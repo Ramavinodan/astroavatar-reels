@@ -1,5 +1,5 @@
 {
-  "name": "reels-factory",
+  "name": "celebrities-reels-factory",
   "version": "1.0.0",
   "description": "My Remotion video",
   "repository": {},
@@ -27,13 +27,6 @@
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
-    "render:meeting": "remotion render GrahaMeeting out/graha-meeting.mp4",
-    "render:rahu-ketu": "remotion render RahuKetuOrigin out/rahu-ketu-origin.mp4",
-    "render:intro": "remotion render DailyDoseIntro out/daily-dose-intro.mp4",
-    "render:format-a": "remotion render RahuKetuFormatA out/format-a-cutout-theater.mp4",
-    "render:format-b": "remotion render RahuKetuFormatB out/format-b-slideshow.mp4",
-    "render:format-c": "remotion render RahuKetuFormatC out/format-c-puppet-motion.mp4",
-    "render:formats": "npm run render:format-a && npm run render:format-b && npm run render:format-c",
     "render:yash": "remotion render YashKundli out/yash-celebrity-profile.mp4"
   },
   "sideEffects": [
