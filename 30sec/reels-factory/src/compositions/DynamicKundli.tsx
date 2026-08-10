@@ -11,6 +11,8 @@ import {
 } from "remotion";
 import { KundliChart, KUNDLI_HOUSE_CENTERS } from "../components/KundliChart";
 
+import { BrandedBackground } from "../components/BrandedBackground";
+
 export const DynamicKundli: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -88,54 +90,61 @@ export const DynamicKundli: React.FC = () => {
   };
 
   return (
-    <AbsoluteFill
-      style={{
-        backgroundColor: "#0d0e15",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "40px",
-      }}
-    >
-      <Audio src={staticFile("audio/mangal.wav")} />
+    <BrandedBackground>
+      <AbsoluteFill
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "40px",
+        }}
+      >
+        <Audio src={staticFile("audio/mangal.wav")} />
 
-      {/* Background decoration */}
       <div
         style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          background: "radial-gradient(circle at center, rgba(30, 20, 50, 0.8) 0%, rgba(10, 10, 15, 1) 100%)",
-          zIndex: 0,
+          zIndex: 1,
+          position: "relative",
+          width: "880px",
+          height: "880px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "100px",
+          background: "rgba(0, 0, 0, 0.4)",
+          backdropFilter: "blur(20px)",
+          borderRadius: "40px",
+          border: "1px solid rgba(255,255,255,0.1)",
+          boxShadow: "0 20px 50px rgba(0,0,0,0.4)",
         }}
-      />
+      >
+        <div style={{ position: "relative", width: "800px", height: "800px" }}>
+          {/* Pass the currently active house so KundliChart can highlight it red */}
+          <KundliChart activeHouses={currentTargetHouse > 0 ? [currentTargetHouse] : []} />
 
-      <div style={{ zIndex: 1, position: "relative", width: "100%", display: "flex", justifyContent: "center", marginTop: "100px" }}>
-        {/* Pass the currently active house so KundliChart can highlight it red */}
-        <KundliChart activeHouses={currentTargetHouse > 0 ? [currentTargetHouse] : []} />
-
-        {/* The Animating Mars Avatar */}
-        <div
-          style={{
-            position: "absolute",
-            // The KundliChart is 800x800. We position relative to that grid.
-            left: `calc(50% - 400px + ${currentX * 8}px)`, 
-            top: `calc(${currentY * 8}px)`, 
-            transform: `translate(-50%, -50%) scale(${scale})`,
-            width: "120px",
-            height: "120px",
-            borderRadius: "50%",
-            overflow: "hidden",
-            border: "4px solid #ff4444",
-            boxShadow: "0 0 30px rgba(255, 50, 50, 0.8)",
-            zIndex: 10,
-          }}
-        >
-          <Img
-            src={staticFile("graha/mangal/portrait.png")}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
+          {/* The Animating Mars Avatar */}
+          <div
+            style={{
+              position: "absolute",
+              // The KundliChart is 800x800. We position relative to that grid.
+              left: `calc(50% - 400px + ${currentX * 8}px)`, 
+              top: `calc(${currentY * 8}px)`, 
+              transform: `translate(-50%, -50%) scale(${scale})`,
+              width: "120px",
+              height: "120px",
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "4px solid #ff4444",
+              boxShadow: "0 0 30px rgba(255, 50, 50, 0.8)",
+              zIndex: 10,
+            }}
+          >
+            <Img
+              src={staticFile("graha/mangal/portrait.png")}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
         </div>
       </div>
 
@@ -166,6 +175,7 @@ export const DynamicKundli: React.FC = () => {
           {getSubtitle()}
         </h1>
       </div>
-    </AbsoluteFill>
+      </AbsoluteFill>
+    </BrandedBackground>
   );
 };
