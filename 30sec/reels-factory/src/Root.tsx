@@ -13,9 +13,19 @@ import {
 } from "./compositions/PremiumIntro";
 import type { PremiumIntroProps } from "./compositions/PremiumIntro";
 
+import { DynamicKundli } from "./compositions/DynamicKundli";
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="DynamicKundli"
+        component={DynamicKundli}
+        durationInFrames={616}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
       <Composition
         id="DailyDoseIntro"
         component={PremiumIntro}
